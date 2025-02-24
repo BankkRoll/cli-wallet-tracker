@@ -118,7 +118,7 @@ The application provides detailed, color-coded output for each transaction:
 - **DEX Trade Details**: Input and output token amounts, DEX name, and program ID
 - **Token Transfer Details**: Transfer type (Received/Sent), token name, amount, sender, and recipient
 
-![fetch](https://github.com/user-attachments/assets/a9a04aca-89b1-4514-9244-6fa538919f71)
+![image](https://github.com/user-attachments/assets/f83bf447-7c95-4438-bc21-8f3f3650222d)
 
 ## Troubleshooting
 
