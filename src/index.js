@@ -6,7 +6,7 @@
  * using the Helius API. Supports real-time tracking and historical data fetching.
  *
  * @author BankkRoll
- * @version 1.0.0
+ * @version 2.0.0
  * @license MIT
  *
  * @requires node-emoji
@@ -119,7 +119,14 @@ async function fetchAssetInfo(mint) {
         jsonrpc: "2.0",
         id: "my-id",
         method: "getAsset",
-        params: { id: mint, displayOptions: { showFungible: true } },
+        params: {
+          id: mint,
+          displayOptions: {
+            showFungible: true,
+            showInscription: true,
+            showCollectionMetadata: true
+          }
+        },
       }),
     })
     const { result } = await response.json()
@@ -128,6 +135,25 @@ async function fetchAssetInfo(mint) {
     console.error(`Error fetching asset info for ${mint}:`, error)
     return null
   }
+}
+
+/**
+ * Extracts and formats token details from asset information
+ * @param {Object} tokenInfo - The token information object
+ * @returns {string[]} An array of formatted token details
+ */
+function getTokenDetails(tokenInfo) {
+  if (!tokenInfo) return ["No token information available"]
+
+  const details = []
+  if (tokenInfo.content?.metadata?.name) details.push(`Name: ${tokenInfo.content.metadata.name}`)
+  if (tokenInfo.content?.metadata?.symbol) details.push(`Symbol: ${tokenInfo.content.metadata.symbol}`)
+  if (tokenInfo.id) details.push(`Mint: ${tokenInfo.id}`)
+  if (tokenInfo.content?.links?.image) details.push(`Image: ${tokenInfo.content.links.image}`)
+  if (tokenInfo.tokenInfo?.supply) details.push(`Supply: ${formatNumber(tokenInfo.tokenInfo.supply)}`)
+  if (tokenInfo.tokenInfo?.decimals) details.push(`Decimals: ${tokenInfo.tokenInfo.decimals}`)
+
+  return details.length > 0 ? details : ["No additional token details available"]
 }
 
 /**
@@ -171,10 +197,19 @@ async function parseTransaction(signature, trackedWallet) {
         const isBuy = trade.inputToken.mint === CONFIG.SOL_MINT
         transactionType = isBuy ? "Buy" : "Sell"
 
+        const inputTokenDetails = getTokenDetails(inputTokenInfo)
+        const outputTokenDetails = getTokenDetails(outputTokenInfo)
+
         transactionDetails.push(
           `${emoji.get("money_with_wings")} ${trade.amm || "Unknown"} Trade (${transactionType})`,
-          `Input: ${formatNumber(trade.inputToken.amount)} ${inputTokenInfo?.content?.metadata?.symbol || "Unknown"}`,
-          `Output: ${formatNumber(trade.outputToken.amount)} ${outputTokenInfo?.content?.metadata?.symbol || "Unknown"}`,
+          `Input Token:`,
+          ...inputTokenDetails.map(detail => `  ${detail}`),
+          `  Amount: ${formatNumber(trade.inputToken.amount)} ${inputTokenInfo?.content?.metadata?.symbol || "Unknown"}`,
+          ``,
+          `Output Token:`,
+          ...outputTokenDetails.map(detail => `  ${detail}`),
+          `  Amount: ${formatNumber(trade.outputToken.amount)} ${outputTokenInfo?.content?.metadata?.symbol || "Unknown"}`,
+          ``,
           trade.fee ? `Fee: ${formatNumber(trade.fee.amount)} ${trade.fee.mint}` : "",
         )
       }
@@ -374,10 +409,10 @@ const program = new Command()
 // Configure program with custom help
 program
   .name("solana-wallet-tracker")
-  .version("1.0.0")
-  .description(false) // Hide default description
-  .helpOption(false) // Disable default help option
-  .addHelpCommand(false) // Disable default help command
+  .version("2.0.0")
+  .description(false) // Hide default description - TODO: fix to actually hide as this don't work?
+  .helpOption(false) // Disable default help option - TODO: fix to actually hide as this don't work?
+  .addHelpCommand(false) // Disable default help command - TODO: fix to actually hide as this don't work?
   .configureHelp({
     sortSubcommands: true,
     sortOptions: true,
@@ -459,4 +494,3 @@ if (process.argv.length <= 2) {
 } else {
   program.parse(process.argv)
 }
-

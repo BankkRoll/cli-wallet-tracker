@@ -1,9 +1,19 @@
 {
   "name": "solana-wallet-tracker",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Enhanced Solana Wallet Tracker CLI",
   "main": "src/index.js",
   "type": "module",
+  "author": "BankkRoll",
+  "license": "MIT",
+  "repository": "https://github.com/BankkRoll/solana-wallet-tracker",
+  "keywords": [
+    "solana",
+    "wallet",
+    "tracker",
+    "cli",
+    "helius"
+  ],
   "scripts": {
     "start": "node --no-deprecation src/index.js"
   },
