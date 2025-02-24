@@ -1,8 +1,6 @@
 <div align="center">
 
-<h1>Solana Wallet Transaction Tracker</h1>
-
-<img src="https://github.com/user-attachments/assets/92136b5b-e2b8-4292-9c10-9d49ccac9dc2" alt="CLI Screenshot" style="max-width: 100%;">
+<img src="https://github.com/user-attachments/assets/444c93d1-b676-4df2-a09d-97d32b8a31c2" alt="CLI Screenshot" style="max-width: 100%;">
 
 <h2>Introduction</h2>
 
@@ -69,6 +67,8 @@ Before you begin, ensure you have the following:
 
 ## Usage Instructions
 
+![usage](https://github.com/user-attachments/assets/7010dac9-55e8-4c77-bff5-b2046b014a03)
+
 The application provides two primary modes of operation: fetching historical transactions and tracking real-time transactions.
 
 ### Fetching Historical Transactions
@@ -118,7 +118,7 @@ The application provides detailed, color-coded output for each transaction:
 - **DEX Trade Details**: Input and output token amounts, DEX name, and program ID
 - **Token Transfer Details**: Transfer type (Received/Sent), token name, amount, sender, and recipient
 
-![image](https://github.com/user-attachments/assets/f83bf447-7c95-4438-bc21-8f3f3650222d)
+![image](https://github.com/user-attachments/assets/a1aaed67-ef06-4468-a895-5b901cd8c882)
 
 ## Troubleshooting
 
